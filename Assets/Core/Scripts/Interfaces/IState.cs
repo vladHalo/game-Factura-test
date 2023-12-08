@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Core.Scripts.Interfaces
 {
     public interface IState
@@ -5,7 +7,6 @@ namespace Core.Scripts.Interfaces
         void EnterState();
         void FinishState();
         void UpdateState();
-        void FixedUpdateState();
-        void OnCollisionEnter();
+        void OnTriggerState(Collider other);
     }
 }

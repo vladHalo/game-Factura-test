@@ -18,43 +18,24 @@ namespace Core.Scripts.Views
             {
                 if (item.button != null)
                 {
-                    item.button.onClick.AddListener(() => { ChangeButtons(index); });
+                    item.button.onClick.AddListener(() => { ChangeButton(index); });
                 }
             });
             StartChangeButton();
         }
 
-        public void ChangeButtons(int number)
+        private void OnDestroy()
         {
-            _buttonsList.ForEach((x, index) => { RefreshButton(index); });
-            ChangeButton(number);
+            _buttonsList.ForEach((item, index) =>
+            {
+                if (item.button != null)
+                {
+                    item.button.onClick.RemoveAllListeners();
+                }
+            });
         }
 
-        private void RefreshButton(int index)
-        {
-            if (_buttonsList[index].image != null && _buttonsList[index].sprites.Count >= 2)
-            {
-                _buttonsList[index].image.sprite = _buttonsList[index].sprites[0];
-                if (!string.IsNullOrEmpty(_buttonsList[index].nameSave))
-                    ES3.Save(_buttonsList[index].nameSave + Prefixs[0], 0);
-            }
-
-            if (_buttonsList[index].image != null && _buttonsList[index].colors.Count >= 2)
-            {
-                _buttonsList[index].image.color = _buttonsList[index].colors[0];
-                if (!string.IsNullOrEmpty(_buttonsList[index].nameSave))
-                    ES3.Save(_buttonsList[index].nameSave + Prefixs[1], 0);
-            }
-
-            if (_buttonsList[index].text != null && _buttonsList[index].texts.Count >= 2)
-            {
-                _buttonsList[index].text.text = _buttonsList[index].texts[0];
-                if (!string.IsNullOrEmpty(_buttonsList[index].nameSave))
-                    ES3.Save(_buttonsList[index].nameSave + Prefixs[2], 0);
-            }
-        }
-
-        private void ChangeButton(int index)
+        public void ChangeButton(int index)
         {
             if (_buttonsList[index].image != null && _buttonsList[index].sprites.Count >= 2)
             {

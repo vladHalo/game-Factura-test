@@ -1,34 +1,19 @@
 using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager instance;
-    
-    [SerializeField] private Button[] _buttons;
+    [SerializeField] private Button _musicButton;
+    [SerializeField] private Button _soundButton;
 
     [SerializeField] private AudioSource _musicSource;
     [SerializeField] private AudioSource[] _soundEffects;
-    
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-    
+
     private void Start()
     {
-        _buttons[0].onClick.AddListener(() => SetVolume(Str.Music, _musicSource));
-        _buttons[1].onClick.AddListener(() => SetVolume(Str.Sound, _soundEffects));
+        _musicButton.onClick.AddListener(() => SetVolume(Str.Music, _musicSource));
+        _soundButton.onClick.AddListener(() => SetVolume(Str.Sound, _soundEffects));
 
         if (PlayerPrefs.HasKey(Str.Music))
         {

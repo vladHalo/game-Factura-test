@@ -1,30 +1,34 @@
-using System.Collections.Generic;
-using Core.Scripts.Bird;
+using Cinemachine;
+using Core.Scripts.Factories;
+using Core.Scripts.States.Car;
 using Core.Scripts.Store;
-using Core.Scripts.Tiger;
 using Core.Scripts.Views;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private Button _startBtn;
+    [Header("StartButton")] [SerializeField]
+    private Button _startBtn;
 
-    public TigerStateManager tigerStateManager;
-    public FactoryAnimal factoryAnimal;
-    public AnimalCountView animalCountView;
-    public StoreLogic storeLogic;
-    public StatusGame statusGame;
+    [Header("Store")] public StoreLogic storeLogic;
+    public Upgrade upgrade;
+
+    [Space] [Header("Level")] [SerializeField]
+    private int level;
+
+    [SerializeField] private int levelText;
+    [SerializeField] private int[] _indexBots;
+    [SerializeField] private float[] _widthWays;
+
+    public Text levelTextUI;
+
     [SerializeField] private ActionPanelManager _actionPanelManager;
+    [SerializeField] private CinemachineVirtualCamera _gameCamera;
 
-    [HideInInspector] public int money;
-    public List<Text> texts;
-
-    [Header("Level")] public Text levelTextUI;
-    public int level;
-    public int levelText;
-    public ParticleSystem particle;
-
+    public CarStateManager carStateManager;
+    public FactoryCoin factoryCoin;
 
     private void Awake()
     {
@@ -33,38 +37,44 @@ public class GameManager : MonoBehaviour
             levelText = PlayerPrefs.GetInt(Str.Level);
             levelTextUI.text = $"Lvl {levelText + 1}";
             level = levelText;
-
-            if (levelText >= 3)
+            if (levelText >= _widthWays.Length)
             {
-                level = Random.Range(0, 4);
+                level = Random.Range(0, _widthWays.Length);
             }
         }
+    }
 
-        if (PlayerPrefs.HasKey(Str.GameStart))
-        {
-            statusGame = StatusGame.Play;
-            _actionPanelManager.OpenPanels(2);
-        }
-
+    private void Start()
+    {
         _startBtn.onClick.AddListener(() =>
         {
-            if (PlayerPrefs.HasKey(Str.Board))
-                statusGame = StatusGame.Play;
+            _gameCamera.Priority = 100;
+            carStateManager.SetState(carStateManager.shotState);
         });
     }
 
-    public int GetLevelScoreForWin() => 10 * (levelText + 1) * (levelText + 1);
+    private void OnDestroy()
+    {
+        _startBtn.onClick.RemoveAllListeners();
+    }
+
+    public void SetHP()
+    {
+        carStateManager.hp.hp++;
+        carStateManager.hp.healthBar.SetMaxHealth(carStateManager.hp.hp);
+    }
+
+    public float GetWidthWay() => _widthWays[level];
+
+    public float GetIndexBot() => _indexBots[level];
 
     public void Win()
     {
+        Time.timeScale = 0;
         level++;
         levelText++;
-        PlayerPrefs.SetInt(Str.Level, levelText);
-    }
 
-    public void AddMoneyForPanel()
-    {
-        money++;
-        texts.ForEach(x => x.text = $"{money}");
+        PlayerPrefs.SetInt(Str.Level, levelText);
+        _actionPanelManager.OpenPanels(0);
     }
 }

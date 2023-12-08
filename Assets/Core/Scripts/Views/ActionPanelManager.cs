@@ -26,6 +26,17 @@ namespace Core.Scripts.Views
             StartOpenPanel();
         }
 
+        private void OnDestroy()
+        {
+            _panelViewModels.ForEach((item, index) =>
+            {
+                if (item.button != null)
+                {
+                    item.button.onClick.RemoveAllListeners();
+                }
+            });
+        }
+
         public void AddListener(Action<int> method)
         {
             _panelViewModels.ForEach((item, index) =>

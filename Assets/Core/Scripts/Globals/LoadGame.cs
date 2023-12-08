@@ -15,25 +15,6 @@ public class LoadGame : MonoBehaviour
 
     private IEnumerator RunLoad()
     {
-        //yield return new WaitForSeconds(0.1f);
-        // AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(Str.Main, LoadSceneMode.Additive);
-        // asyncLoad.allowSceneActivation = false;
-        //
-        // while (asyncLoad.progress < 0.9f)
-        // {
-        //     SetProgress(asyncLoad.progress);
-        //     yield return null;
-        // }
-        //
-        // yield return new WaitForSeconds(0.1f);
-        //
-        // SetProgress(0.9f);
-        // asyncLoad.allowSceneActivation = true;
-        // while (!asyncLoad.isDone) 
-        // {
-        //     yield return null;
-        // }
-
         while (_progress.value != 1)
         {
             _progress.value += .01f;
@@ -42,6 +23,4 @@ public class LoadGame : MonoBehaviour
 
         SceneManager.LoadScene(Str.Main);
     }
-
-    //private void SetProgress(float value) => _progress.value = value;
 }

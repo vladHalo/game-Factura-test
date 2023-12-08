@@ -32,18 +32,17 @@ MonoBehaviour:
     - Zenject
     - EasySave3
     - CW.Common
-    - Assembly-CSharp
     - Assembly-CSharp-firstpass
     - Cinemachine
+    - Assembly-CSharp
     - LeanPool
-    - Lofelt.NiceVibrations.Demo
-    - Lofelt.NiceVibrations
     - LeanCommon
     - ToonyColorsPro2.Demo
     - ToonyColorsPro.Runtime
     - HierarchyIcons
     - Sirenix.OdinInspector.CompatibilityLayer
     - ColoredHeaderCreator
+    - NavMeshComponents
     - ColoredHeaderCreator.Editor
     - PPv2URPConverters
     - ToonyColorsPro.Editor
@@ -52,7 +51,7 @@ MonoBehaviour:
     - Sirenix.OdinInspector.CompatibilityLayer.Editor
     - ToonyColorsPro.Demo.Editor
     - Sirenix.OdinInspector.Modules.UnityMathematics
-    - Lofelt.NiceVibrations.Editor
+    - NavMeshComponentsEditor
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1

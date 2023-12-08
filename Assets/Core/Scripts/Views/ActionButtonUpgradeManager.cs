@@ -22,6 +22,17 @@ namespace Core.Scripts.Views
 
             StartChangeButton();
         }
+        
+        private void OnDestroy()
+        {
+            _buttonsList.ForEach((item, index) =>
+            {
+                if (item.button != null)
+                {
+                    item.button.onClick.RemoveAllListeners();
+                }
+            });
+        }
 
         public void AddListener(Action<int> method)
         {
